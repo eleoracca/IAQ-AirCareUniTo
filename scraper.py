@@ -57,16 +57,16 @@ def main(args):
     date_today = datetime(2025, 3, 1).date()
     date_first = datetime(2024, 3, 1).date()
     
-    print(f"First day to be downloaded: {date_first}")
-    print(f"Last day to be downloaded:  {date_today}")
+    print(f" First day to be downloaded: {date_first}")
+    print(f" Last day to be downloaded:  {date_today}")
     
     # --- Changing the default dates, if necessary
     change_date = 'n'
-    change_date = input("Do you wish to change beginning and ending dates? (y/n): ").strip().lower()
+    change_date = input(" Do you wish to change beginning and ending dates? (y/n): ").strip().lower()
     				
     while change_date not in ["y", "n"]:
-    		print("Invalid answer! Insert 'y' to change the dates or 'n' to mantain the default ones.")
-    		next_page = input("Do you wish to change beginning and ending dates? (y/n): ").strip().lower()
+    		print(" Invalid answer! Insert 'y' to change the dates or 'n' to mantain the default ones.")
+    		next_page = input(" Do you wish to change beginning and ending dates? (y/n): ").strip().lower()
     
     if(change_date == 'n'):
     		# Set current date to today
@@ -98,9 +98,9 @@ def main(args):
     #		print(data.strftime("%d/%m/%Y"))
     
     print("")
-    print(f"Please, keep in mind that the first day to be downloaded may vary \nbetween the date chosen and {DAY_NUMBER} days before.")
-    print("The final day to be saved is the chosen one as errors may occour \nif the date is in the future.")
-    print("This is because the script saves a costant number of days starting \nfrom the end date. Sorry for the inconvenience.")
+    print(f" Please, keep in mind that the first day to be downloaded may vary \nbetween the date chosen and {DAY_NUMBER} days before.")
+    print(" The final day to be saved is the chosen one as errors may occour \nif the date is in the future.")
+    print(" This is because the script saves a costant number of days starting \nfrom the end date. Sorry for the inconvenience.")
     
     # ---- Site scraping ----
     print(" ")
@@ -145,9 +145,11 @@ def scrape():
     		driver.get(TARGET_URL)
     		
     		# Manual login (to avoid further troubles) and proceed to correct page where it is possible to download the data
-    		print("Please, log in to the website and go to the Inventory page with the \nleft sidebar.")
-    		print("Remember to change the default download folder of the browser \nthrough the browserd setting to save the files in the scraping subfolder.")
-    		input("Press any key when the browser has loaded the Inventory page to start the scraping...")
+    		print(" - Please, log in to the website and go to the Inventory page with the \n   left sidebar.")
+    		print(" - Remember to change the default download folder of the browser through \n   the browser setting to save the files in the scraping subfolder.")
+    		print(" - To optimise the download for the greatest number of sensors, remember \n   to set the page to 50 sensors and minimise the zoom in the page.")
+    		print(" - Remember to put the sensors in alphabetical order by sensor name to \n   download correctly all the sensors. The platform orders them\n   by last measure received and therefore the order is randomised each time you change the page.")
+    		input(" Press any key when the browser has loaded the Inventory page and\n you are ready to start the web-scraping...")
     		
     		# ---- Downloading data ----
     		# --- Loop on all the pages including sensors
@@ -167,16 +169,16 @@ def scrape():
     						select_sensor(driver, row_sensor)
     				
     				# --- Go to the next page with sensor data
-    				print("Please, go to the next page to continue the download before answering the following question.")
-    				print("If this is the last page, answer 'n'.")
-    				next_page = input("Shall I proceed with the dowload? (y/n): ").strip().lower()
+    				print(" Please, go to the next page to continue the download before answering the following question.")
+    				print(" If this is the last page, answer 'n'.")
+    				next_page = input(" Shall I proceed with the dowload? (y/n): ").strip().lower()
     				
     				while next_page not in ["y", "n"]:
-    						print("Invalid answer! Insert 'y' to continue or 'n' to finish.")
-    						next_page = input("Shall I proceed with the dowload? (y/n): ").strip().lower()
+    						print(" Invalid answer! Insert 'y' to continue or 'n' to finish.")
+    						next_page = input(" Shall I proceed with the dowload? (y/n): ").strip().lower()
     
     print(" ")
-    print("The download ended. Thank you very much for your patience!")
+    print(" The download ended. Thank you very much for your patience!")
     
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,7 +188,7 @@ def select_sensor(driver, row):
     # -- Get sensor name
     row_cols = row.find_elements(By.TAG_NAME, "td")
     name_sensor = row_cols[3].text.replace("/", "-")
-    print("Downloading data for sensor: " + name_sensor)
+    print(" Downloading data for sensor: " + name_sensor)
     
     # -- Select the sensor
     check = row.find_element(By.CLASS_NAME, 'm-checkbox')
