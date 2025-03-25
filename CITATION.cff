@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: IAQ-AirCareUniTo
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Eleonora
+    family-names: Racca
+    email: e.racca@unito.it
+    affiliation: Università degli Studi di Torino
+    orcid: 'https://orcid.org/0000-0002-9097-5666'
+  - given-names: Alberto
+    family-names: Mecca
+    email: alberto.mecca@cern.ch
+    affiliation: Università degli Studi di Torino
+    orcid: 'https://orcid.org/0000-0003-2209-2527'
+repository-code: 'https://github.com/eleoracca/IAQ-AirCareUniTo'
+abstract: >-
+  Repository to download and analyse the indoor environmental quality data of
+  indoor air quality sensors installed in the University of Turin.
+url: "https://github.com/eleoracca/IAQ-AirCareUniTo"
