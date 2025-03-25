@@ -35,8 +35,34 @@ for (i in lib) {
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Custom function --------------------------------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Function to read the data and convert string columns to string
+fun_read <- function(file) {
+  df <- read_excel(file)
+  
+  # Check if there are at least 6 columns
+  if (ncol(df) >= 6) {
+    df <- df %>%
+      # Convert the first 6 columns to string and the epoch time to number
+      # Epoch time should be numeric, but better be safe as the ordering will use the epoch time
+      mutate(
+        across(1:6, as.character),
+        across(7, as.numeric)
+      )
+  }
+  
+  return(df)
+}
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Settings and global variables ------------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Begin time
+time_begin <- Sys.time()
+
 # Print di debug e avanzamento
 print(" Creation of global variables")
 
@@ -47,27 +73,11 @@ path_out <- "../data"
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Custom function --------------------------------------------------------------
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Function to read the data and convert string columns to string
-fun_read <- function(file) {
-  df <- read_excel(file)
-  
-  # Check if there are at least 6 columns
-  if (ncol(df) >= 6) {
-    df <- df %>%
-      # Convert the first 6 columns to string
-      mutate(across(1:6, as.character))  
-  }
-  
-  return(df)
-}
-
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Files conversion -------------------------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("-----------------------------------------------------------------------")
+print(" Reading and export of xls files to csv")
+print("-----------------------------------------------------------------------\n")
 # Obtaining sensors' subfolders in the main directory
 path_list <- list.dirs(path_in, recursive = FALSE)
 
@@ -86,8 +96,10 @@ for (path_subfolder in path_list) {
   if (length(file_list) > 0) {
     # Use custom function to read the files and convert the strings to strings
     df_list <- lapply(file_list, fun_read)
-    # Concatenate the dataframes
+    
+    # Concatenate the dataframes and order by epoch time
     df_all <- bind_rows(df_list)
+    df_all <- df_all %>% arrange(across(7))
     
     # File name based on the subfolder's name
     name_out <- paste0(basename(path_subfolder), "_complete.csv")
@@ -99,3 +111,35 @@ for (path_subfolder in path_list) {
     cat("Saved:", path_fileout, "\n")
   }
 }
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Final prints and execution time ----------------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print("-----------------------------------------------------------------------")
+print(" Elapsed time")
+print("-----------------------------------------------------------------------\n")
+# Ending time
+time_end <- Sys.time()
+
+# Elapsed time
+time_last <- as.numeric(difftime(time_end, time_begin, units = "secs"))
+time_hours <- floor(time_last / 3600)
+time_min <- floor((time_last %% 3600) / 60)
+time_sec <- round(time_last %% 60)
+
+# Print duration
+cat(" Begin time:    ", format(time_begin, "%Y-%m-%d %H:%M:%S"), "\n")
+cat(" End time:      ", format(time_end, "%Y-%m-%d %H:%M:%S"), "\n")
+cat(sprintf(" Elapsed time: %02d:%02d:%02d\n", time_hours, time_min, time_sec))
+
+print("Execution has ended. Thank you for your patience!")
+
+
+
+
+
+
+
+
