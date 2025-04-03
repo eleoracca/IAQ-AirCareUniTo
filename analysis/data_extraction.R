@@ -167,9 +167,3 @@ print("Execution has ended. Thank you for your patience!")
 
 # Deactivating the virtual environment
 renv::deactivate()
-
-
-
-
-
-
