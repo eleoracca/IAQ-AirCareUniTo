@@ -17,6 +17,7 @@ from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import ElementClickInterceptedException
 import time
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 # TODO: ricordarsi che poi bisogna cambiare pagina sistemati i primi 100 sensori
 
@@ -53,9 +54,8 @@ def main(args):
     
     # --- Default dates for the period to be downloaded
     # Today and first day to be downloaded
-    #date_today = datetime.today().date()
-    date_today = datetime(2025, 3, 1).date()
-    date_first = datetime(2024, 3, 1).date()
+    date_today = datetime.today().date()
+    date_first = date_today - relativedelta(months = 1)
     
     print(f" First day to be downloaded: {date_first}")
     print(f" Last day to be downloaded:  {date_today}")

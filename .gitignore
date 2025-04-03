@@ -8,7 +8,6 @@ data/
 raw-data/
 figures/
 results/
-scraping/
 
 # ----------------------------------------------------
 ## Gitignore for C, C++, Fortran

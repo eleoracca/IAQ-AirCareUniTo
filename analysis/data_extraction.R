@@ -94,7 +94,7 @@ print(" Creation of global variables")
 
 ## Paths -----------------------------------------------------------------------
 # Path are given based on the current working directory, which is path_workdir
-path_in <- "scraping"
+path_in <- "raw-data"
 path_out <- "data"
 
 

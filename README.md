@@ -5,6 +5,7 @@ Repository for the analysis of data downloaded from the AirCare sensors placed a
 ## Setup
 To start using this framework, Python and R are required. Please install their dependencies before starting to work with the repository.
 Then, to correctly set up your working environment, clone the repository and run the following commands in the main folder:
+**NOTE**: the scripts were tested in a Linux environment, therefore on other operative systems they might not work.
 
 ```console
 git clone https://github.com/eleoracca/IAQ-AirCareUniTo.git
@@ -21,18 +22,18 @@ To start the download, run the following commands from the main folder of the Gi
 
 ```console
 source env/bin/activate
-python scraper.py
+python scraping/scraper.py
 deactivate
 ```
 
 The script will prompt you with the necessary actions and comments during the execution.
-Please keep in mind that **every time you start the scraper, you need to change the default download folder to the scraping folder** of this repository; otherwise, the data will be saved elsewhere. Also, be sure not to minimize the browser window during the download, as this may cause the download to fail.
+Please keep in mind that **every time you start the scraper, you need to change the default download folder to the *raw-data* folder** of this repository; otherwise, the data will be saved elsewhere. Also, be sure not to minimize the browser window during the download, as this may cause the download to fail.
 A compatibility issue was detected and solved by updating one of the Firefox drivers (geckodriver).
 
 After the download is complete, to reorganize the files, run the following command from the main folder of the Git repository on your PC:
 
 ```console
-bash moving.sh
+bash scraping/moving.sh
 ```
 
 This script will delete any duplicate files and group the files from the same sensors by name into subfolders created by the script itself.

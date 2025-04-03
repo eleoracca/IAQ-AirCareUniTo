@@ -6,14 +6,13 @@ echo " Script to remove duplicated files and move them to the sensors' folders."
 echo ""
 
 # Opening folder with data files
-cd scraping
+cd raw-data
 
 # Removing possible duplicated downloaded files
 echo " --- Removing duplicated files"
 find . -type f -regextype posix-extended -regex '.*\([0-9]+\)\.xls' -delete
 
 # Moving files to sensors' subfolders
-echo ""
 echo " --- Moving files to sensors' folders"
 for code in $(ls | grep .xls | cut -d _ -f 2 | sort | uniq) ; do
     mkdir -p $code && \

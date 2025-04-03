@@ -26,7 +26,6 @@ echo ""
 echo " --- Creating useful directories"
 mkdir -p "./data"
 mkdir -p "./raw-data"
-mkdir -p "./scraping"
 mkdir -p "./figures"
 mkdir -p "./results"
 
