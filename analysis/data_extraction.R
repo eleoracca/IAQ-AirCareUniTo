@@ -16,13 +16,39 @@ print("-----------------------------------------------------------------------\n
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Loading the virtual environment ----------------------------------------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Debug and progress prints
+print(" Activating the virtual environment")
+
+# Libraries vector, to be installed or loaded
+lib <- c ("renv", "rprojroot")
+
+# Install missing and load libraries
+for (i in lib) {
+  if (i %in% installed.packages () [,"Package"] == F) {
+    install.packages (i)
+  }
+  suppressPackageStartupMessages(library (i, character.only = TRUE))
+}
+
+# Activating the virtual environment
+path_workdir <- rprojroot::find_root(rprojroot::has_file("renv.lock"))
+renv::load(path_workdir)
+
+# Set working directory
+setwd(path_workdir)
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Required libraries -----------------------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Debug and progress prints
 print(" Loading the libraries")
 
 # Libraries vector, to be installed or loaded
-lib <- c ("readxl", "dplyr", "readr")
+lib <- c ("readxl", "tidyr", "dplyr", "readr")
 
 # Install missing and load libraries
 for (i in lib) {
@@ -35,7 +61,7 @@ for (i in lib) {
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Custom function --------------------------------------------------------------
+# Custom functions -------------------------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Function to read the data and convert string columns to string
 fun_read <- function(file) {
@@ -67,8 +93,9 @@ time_begin <- Sys.time()
 print(" Creation of global variables")
 
 ## Paths -----------------------------------------------------------------------
-path_in <- "../scraping"
-path_out <- "../data"
+# Path are given based on the current working directory, which is path_workdir
+path_in <- "scraping"
+path_out <- "data"
 
 
 
@@ -99,7 +126,9 @@ for (path_subfolder in path_list) {
     
     # Concatenate the dataframes and order by epoch time
     df_all <- bind_rows(df_list)
-    df_all <- df_all %>% arrange(across(7))
+    df_all <- df_all %>% 
+      distinct() %>%      # Remove duplicates line
+      arrange(across(7))  # Order by epoch time
     
     # File name based on the subfolder's name
     name_out <- paste0(basename(path_subfolder), "_complete.csv")
@@ -136,7 +165,8 @@ cat(sprintf(" Elapsed time: %02d:%02d:%02d\n", time_hours, time_min, time_sec))
 
 print("Execution has ended. Thank you for your patience!")
 
-
+# Deactivating the virtual environment
+renv::deactivate()
 
 
 

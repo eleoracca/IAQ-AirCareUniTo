@@ -1,0 +1,32 @@
+# Renvignore file
+# E. Racca (UNITO) e.racca@unito.it
+
+# ----------------------------------------------------
+## Renvignore folders
+data/
+figures/
+raw_data/
+results/
+scraping/
+
+# ----------------------------------------------------
+## File formats
+*.csv
+*.xls
+*.xlsx
+*.txt
+*.sh
+*.py
+
+# ----------------------------------------------------
+## Specific files
+.gitignore
+CITATION.cff
+README.md
+LICENSE
+
+# ----------------------------------------------------
+## Folders of other environments
+.git/
+__pycache__/
+env/
